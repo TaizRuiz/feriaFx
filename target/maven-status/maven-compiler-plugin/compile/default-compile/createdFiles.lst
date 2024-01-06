@@ -1,7 +1,3 @@
-clases\Seccion.class
-com\mycompany\feria_poo\App.class
-clases\Stand.class
-clasesEstaticas\AdministracionAuspiciantes.class
 clases\Auspiciante.class
 clases\Persona.class
 com\mycompany\feria_poo\PrimaryController.class
@@ -10,8 +6,12 @@ clasesEstaticas\AdministracionEmprendedores.class
 clases\Socials.class
 clases\Feria.class
 module-info.class
-clases\Emprendedor.class
 com\mycompany\feria_poo\AdministracionFeriaController.class
 com\mycompany\feria_poo\SecondaryController.class
 clasesEstaticas\AdministracionFeria.class
+clases\Seccion.class
+com\mycompany\feria_poo\App.class
+clases\Stand.class
+clasesEstaticas\AdministracionAuspiciantes.class
+clases\Emprendedor.class
 enums\TipoServicio.class
