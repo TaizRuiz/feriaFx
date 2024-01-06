@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.PrimaryController">
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
-</VBox>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="444.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.PrimaryController">
+   <children>
+      <ImageView fx:id="iFeria" fitHeight="112.0" fitWidth="128.0" layoutX="100.0" layoutY="100.0" onMouseClicked="#administrarFeria" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="iEmpre" fitHeight="112.0" fitWidth="128.0" layoutX="366.0" layoutY="100.0" onMouseClicked="#administrarEmprendedores" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="iAuspi" fitHeight="112.0" fitWidth="128.0" layoutX="100.0" layoutY="274.0" onMouseClicked="#administradorAuspiciantes" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="iStans" fitHeight="112.0" fitWidth="128.0" layoutX="366.0" layoutY="274.0" onMouseClicked="#administradorStans" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="98.0" layoutY="234.0" text="Adminisrador de Feria" />
+      <Label layoutX="343.0" layoutY="234.0" text="Adminisrador de Emprendedores" />
+      <Label layoutX="78.0" layoutY="363.0" text="Adminisrador de Auspiciantes" />
+      <Label layoutX="364.0" layoutY="363.0" text="Adminisrador de Stans" />
+   </children>
+</AnchorPane>
