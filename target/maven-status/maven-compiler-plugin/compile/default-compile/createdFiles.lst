@@ -2,6 +2,7 @@ clases\Auspiciante.class
 clases\Persona.class
 com\mycompany\feria_poo\PrimaryController.class
 clasesEstaticas\AdministracionStands.class
+com\mycompany\feria_poo\AdministracionStansController.class
 clasesEstaticas\AdministracionEmprendedores.class
 clases\Socials.class
 clases\Feria.class
@@ -14,4 +15,6 @@ com\mycompany\feria_poo\App.class
 clases\Stand.class
 clasesEstaticas\AdministracionAuspiciantes.class
 clases\Emprendedor.class
+com\mycompany\feria_poo\AdministracionAuspicianteController.class
+com\mycompany\feria_poo\AdministracionEmprendedoresController.class
 enums\TipoServicio.class

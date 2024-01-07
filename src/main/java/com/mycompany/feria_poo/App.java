@@ -15,6 +15,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.paint.Color;
 
 /**
  * JavaFX App
@@ -27,13 +30,21 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"),910,650);
+        scene = new Scene(loadFXML("primary"),600,440);
+        
         ferias=new ArrayList<>();
         emprendedores=new ArrayList<>();
         auspiciantes=new ArrayList<>();
         cargarFeria();
+        BackgroundFill backgroundFill = new BackgroundFill(Color.SKYBLUE, null, null);
+        Background background = new Background(backgroundFill);
+
+        // Aplicar el fondo a la escena
+        scene.setFill(Color.SKYBLUE);  // O puedes usar setBackground(background) en lugar de setFill
+
         stage.setScene(scene);
         stage.show();
+        
     }
 
     static void setRoot(String fxml) throws IOException {
