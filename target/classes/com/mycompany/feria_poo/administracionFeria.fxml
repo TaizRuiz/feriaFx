@@ -7,13 +7,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.AdministracionFeriaController">
+<AnchorPane id="AnchorPane" fx:id="mainContainer" prefHeight="400.0" prefWidth="628.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.AdministracionFeriaController">
    <children>
       <ImageView fx:id="btregresar" fitHeight="43.0" fitWidth="49.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#regresar" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../imagenes/regresar.jpg" />
          </image></ImageView>
-      <Label layoutX="322.0" layoutY="22.0" text="Ferias" textFill="#018413">
+      <Label layoutX="280.0" layoutY="22.0" text="Ferias" textFill="#018413">
          <font>
             <Font name="Arial" size="24.0" />
          </font>

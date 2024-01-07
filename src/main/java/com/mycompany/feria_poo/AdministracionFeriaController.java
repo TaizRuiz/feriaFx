@@ -4,15 +4,21 @@
  */
 package com.mycompany.feria_poo;
 
+import clases.Feria;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -35,15 +41,15 @@ public class AdministracionFeriaController implements Initializable {
     private Button btveraus;
     @FXML
     private Button btverstans;
+    private TableView<Feria> listaFerias=new TableView();
     @FXML
-    private ListView<?> lsferia;
-
+    private AnchorPane mainContainer;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       cargarFerias();
     }    
 
     @FXML
@@ -83,4 +89,14 @@ public class AdministracionFeriaController implements Initializable {
     private void listaFeria(MouseEvent event) {
     }
     
+    public void cargarFerias(){
+        ObservableList<Feria> ferias= FXCollections.observableArrayList();
+        ArrayList<Feria> arFer=App.ferias;
+        for (Feria f: arFer){
+            System.out.println(f.toString());
+            listaFerias.getItems().add(f);
+        }
+        
+        mainContainer.getChildren().add(listaFerias);
+    }
 }
