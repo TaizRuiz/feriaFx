@@ -102,5 +102,17 @@ public class App extends Application {
         feria1.getlAuspiciantes().add(auspiciante);
         
     }
+    /*
+    public void cargarFerias(){
+        ObservableList<Feria> ferias= FXCollections.observableArrayList();
+        ArrayList<Feria> arFer=App.ferias;
+        for (Feria f: arFer){
+            System.out.println(f.toString());
+            listaFerias.getItems().add(f);
+        }
+        
+        mainContainer.getChildren().add(listaFerias);
+    }
+    */
 
 }

@@ -23,7 +23,7 @@ import javafx.scene.layout.AnchorPane;
 /**
  * FXML Controller class
  *
- * @author UserPC
+ * @author Kevin
  */
 public class AdministracionFeriaController implements Initializable {
 
@@ -32,24 +32,26 @@ public class AdministracionFeriaController implements Initializable {
     @FXML
     private Button btdetalles;
     @FXML
-    private Button btnuevaFeria;
+    private Button btnuevaferia;
     @FXML
     private Button bteditar;
     @FXML
     private Button btverempre;
     @FXML
-    private Button btveraus;
+    private Button btverauspi;
     @FXML
     private Button btverstans;
-    private TableView<Feria> listaFerias=new TableView();
     @FXML
+    private ListView<?> listaferia;
+    private TableView<Feria> listaFeria=new TableView();
     private AnchorPane mainContainer;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       cargarFerias();
+        // TODO
     }    
 
     @FXML
@@ -94,9 +96,10 @@ public class AdministracionFeriaController implements Initializable {
         ArrayList<Feria> arFer=App.ferias;
         for (Feria f: arFer){
             System.out.println(f.toString());
-            listaFerias.getItems().add(f);
+            listaFeria.getItems().add(f);
         }
         
-        mainContainer.getChildren().add(listaFerias);
+        mainContainer.getChildren().add(listaFeria);
     }
+    
 }
