@@ -2,15 +2,13 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.AdministracionFeriaController">
+<BorderPane fx:id="contenedorPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.AdministracionFeriaController">
    <top>
       <Pane prefHeight="66.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -30,32 +28,32 @@
    <left>
       <Pane prefHeight="334.0" prefWidth="176.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btdetalles" layoutX="58.0" layoutY="23.0" mnemonicParsing="false" onMouseClicked="#detalles" text="Detalles">
+            <Button fx:id="btdetalles" layoutX="22.0" layoutY="33.0" mnemonicParsing="false" onMouseClicked="#detalles" text="Detalles">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btnuevaferia" layoutX="45.0" layoutY="62.0" mnemonicParsing="false" onMouseClicked="#nuevaFeria" text="Nueva Feria">
+            <Button fx:id="btnuevaferia" layoutX="22.0" layoutY="72.0" mnemonicParsing="false" onMouseClicked="#nuevaFeria" text="Nueva Feria">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="bteditar" layoutX="65.0" layoutY="100.0" mnemonicParsing="false" onMouseClicked="#editar" text="Editar">
+            <Button fx:id="bteditar" layoutX="22.0" layoutY="110.0" mnemonicParsing="false" onMouseClicked="#editar" text="Editar">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btverempre" layoutX="22.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#verEmprendedores" text="Ver Emprendedores">
+            <Button fx:id="btverempre" layoutX="19.0" layoutY="154.0" mnemonicParsing="false" onMouseClicked="#verEmprendedores" text="Ver Emprendedores">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btverauspi" layoutX="36.0" layoutY="178.0" mnemonicParsing="false" onMouseClicked="#verAuspiciantes" text="Ver Auspiciantes">
+            <Button fx:id="btverauspi" layoutX="26.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#verAuspiciantes" text="Ver Auspiciantes">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="btverstans" layoutX="52.0" layoutY="218.0" mnemonicParsing="false" onMouseClicked="#verStans" text="Ver Stans">
+            <Button fx:id="btverstans" layoutX="24.0" layoutY="243.0" mnemonicParsing="false" onMouseClicked="#verStans" text="Ver Stans">
                <font>
                   <Font name="Arial" size="14.0" />
                </font>
@@ -63,7 +61,4 @@
          </children>
       </Pane>
    </left>
-   <center>
-      <ListView fx:id="listaferia" onMouseClicked="#listaFeria" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
 </BorderPane>

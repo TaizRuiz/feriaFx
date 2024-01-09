@@ -21,6 +21,7 @@ public class Feria {
     private String lugar;
     private String horario;
     private ArrayList<Auspiciante> lAuspiciantes;
+    private int cantAusp=0;
     private Seccion[] secciones=new Seccion[4];
 
     public Feria(String nombre, LocalDate fInicio, LocalDate fFin, String lugar, String horario, String descripcion) {
@@ -33,9 +34,12 @@ public class Feria {
         this.horario = horario;
         this.descripcion=descripcion;
         this.lAuspiciantes = new ArrayList<>();
+        this.cantAusp=0;
     }
 
-    
+    public int getCantAusp(){
+        return this.lAuspiciantes.size();
+    }
 
     public int getCodigo() {
         return codigo;
