@@ -6,12 +6,15 @@ package clases;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  *
  * @author USUARIO
  */
 public class Feria {
+    private ObjectProperty<LocalDate> fIn;
     private static int cont_ferias=1;
     private int codigo;
     private String nombre;
@@ -35,8 +38,26 @@ public class Feria {
         this.descripcion=descripcion;
         this.lAuspiciantes = new ArrayList<>();
         this.cantAusp=0;
+        this.fIn=new SimpleObjectProperty<>(fInicio);
+        
     }
 
+    public ObjectProperty<LocalDate> getfIn() {
+        return fIn;
+    }
+
+    public void setfIn(ObjectProperty<LocalDate> fIn) {
+        this.fIn = fIn;
+    }
+
+    public static int getCont_ferias() {
+        return cont_ferias;
+    }
+
+    public static void setCont_ferias(int cont_ferias) {
+        Feria.cont_ferias = cont_ferias;
+    }
+    
     public int getCantAusp(){
         return this.lAuspiciantes.size();
     }

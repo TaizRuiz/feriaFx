@@ -30,7 +30,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"),600,440);
+        scene = new Scene(loadFXML("primary"),800,500);
         
         ferias=new ArrayList<>();
         emprendedores=new ArrayList<>();
@@ -61,14 +61,14 @@ public class App extends Application {
     }
     public static void cargarFeria(){
         //ArrayList<Feria> listaFeria =  new ArrayList<>();
-        Feria feria1 = new Feria("agricola", LocalDate.now(), LocalDate.now(), "Guayaquil", "14:00 p.m", "Feria dedicada a la agricultura");
+        Feria feria1 = new Feria("Feria agricola", LocalDate.now(), LocalDate.now(), "Guayaquil", "14:00 p.m", "Feria dedicada a la agricultura");
         ferias.add(feria1);
         feria1.getSecciones()[0] = new Seccion(2);
         feria1.getSecciones()[1] = new Seccion(2);
         feria1.getSecciones()[2] = new Seccion(2);
         feria1.getSecciones()[3] = new Seccion(2);
          
-        Feria feria2 = new Feria("Gastronomia", LocalDate.now(), LocalDate.now(), "Quito", "10:00 a.m", "Feria dedicada a la Gatronomia");
+        Feria feria2 = new Feria("Feria Gastronomica", LocalDate.now(), LocalDate.now(), "Quito", "10:00 a.m", "Feria dedicada a la Gatronomia");
         ferias.add(feria2);
         feria2.getSecciones()[0] = new Seccion(1);
         feria2.getSecciones()[1] = new Seccion(2);
