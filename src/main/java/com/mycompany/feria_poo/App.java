@@ -100,6 +100,7 @@ public class App extends Application {
         Auspiciante auspiciante = new Auspiciante("09121212", "ESPOL", "1234567891", "kevinricki-2002@hotmail.com", "Kevin", redes, TipoServicio.ALIMENTACIÓN);
         auspiciante.setIncluye_stand(true);
         feria1.getlAuspiciantes().add(auspiciante);
+        auspiciantes.add(auspiciante);
         
     }
     /*

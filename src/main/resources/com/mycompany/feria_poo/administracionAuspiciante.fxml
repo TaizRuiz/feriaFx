@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.AdministracionAuspicianteController">
-   <children>
-      <ImageView fx:id="btregresar3" fitHeight="47.0" fitWidth="54.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#regresar3" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../imagenes/regresar.jpg" />
-         </image>
-      </ImageView>
-      <Label layoutX="232.0" layoutY="24.0" text="Auspiciantes" textFill="#007317">
-         <font>
-            <Font name="Arial" size="24.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<BorderPane fx:id="contenedorPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.feria_poo.AdministracionAuspicianteController">
+   <top>
+      <Pane prefHeight="69.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="btnregresar" fitHeight="61.0" fitWidth="68.0" layoutX="29.0" layoutY="4.0" onMouseClicked="#regresar" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../imagenes/regresar.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="286.0" layoutY="26.0" text="Auspiciantes" textFill="#046e1d">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </top>
+   <left>
+      <Pane prefHeight="331.0" prefWidth="197.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btndetalles" layoutX="65.0" layoutY="28.0" mnemonicParsing="false" onMouseClicked="#detalles" text="Detalles">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnnuevoauspi" layoutX="38.0" layoutY="93.0" mnemonicParsing="false" onMouseClicked="#nuevoAuspiciante" text="Nuevo Auspiciante">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btneditarauspi" layoutX="40.0" layoutY="151.0" mnemonicParsing="false" onMouseClicked="#editarAuspiciante" text="Editar Auspiciante">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnasignarauspi" layoutX="14.0" layoutY="212.0" mnemonicParsing="false" onMouseClicked="#AsignarAuspiciante" text="Asignar Auspiciante a feria">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </left>
+</BorderPane>
