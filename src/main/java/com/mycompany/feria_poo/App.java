@@ -77,8 +77,8 @@ public class App extends Application {
         ArrayList<Socials> redes=new ArrayList<>();
         redes.add(new Socials("Facebook","user"));
         Emprendedor e1=new Emprendedor("0914463815","Tuty", "0981383239","dtruiz@live.com","Dafne",redes,"Emprendimiento");
-        feria1.getSecciones()[0].getStands()[0].setPersona_responsable(e1);
-        feria1.getSecciones()[0].getStands()[0].setFechaAsignacion(LocalDate.now());
+        feria2.getSecciones()[0].getStands()[0].setPersona_responsable(e1);
+        feria2.getSecciones()[0].getStands()[0].setFechaAsignacion(LocalDate.now());
         emprendedores.add(e1);
         
         Emprendedor e2=new Emprendedor("09506375557","Tia", "0968933048","kerimaga@espol.edu.ec","Kevin",redes,"Emprendimiento");

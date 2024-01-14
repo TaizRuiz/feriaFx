@@ -103,7 +103,7 @@ public class AdministracionAuspicianteController implements Initializable {
         TableColumn<Auspiciante, String> colTelefono = new TableColumn<>("Telefono");
         TableColumn<Auspiciante, String> colEmail = new TableColumn<>("Email");
         colNombre.setCellValueFactory(new PropertyValueFactory<>("Nombre"));
-        colCedula.setCellValueFactory(new PropertyValueFactory<>("Cedula"));
+        colCedula.setCellValueFactory(new PropertyValueFactory<>("identificacion"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<>("Telefono"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
         

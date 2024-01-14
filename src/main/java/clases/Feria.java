@@ -17,6 +17,7 @@ public class Feria {
     private ObjectProperty<LocalDate> fIn;
     private static int cont_ferias=1;
     private int codigo;
+    private int cantEmprendedores=0;
     private String nombre;
     private LocalDate fInicio;
     private LocalDate fFin;
@@ -133,6 +134,19 @@ public class Feria {
     public void setSecciones(Seccion[] secciones) {
         this.secciones = secciones;
     }
+
+    public int getCantEmprendedores() {
+        int cont=0;
+        for (Seccion s: this.getSecciones()){
+            for (Stand st:s.getStands()){
+                if (st.getPersona_responsable()!=null){
+                    cont++;
+                }
+            }
+        }
+        return cont;
+    }
+    
 
     @Override
     public String toString() {
