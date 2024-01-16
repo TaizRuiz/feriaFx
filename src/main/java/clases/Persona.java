@@ -5,6 +5,7 @@
 package clases;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -111,6 +112,27 @@ public class Persona {
     @Override
     public String toString() {
         return "Persona{" + "identificacion=" + identificacion + ", nombre=" + nombre + ", telefono=" + telefono + ", email=" + email + ", direccion=" + direccion + ", sitio_web=" + sitio_web + ", nombre_de_responsable=" + nombre_de_responsable + ", redes_sociales=" + redes_sociales + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Persona other = (Persona) obj;
+        return Objects.equals(this.identificacion, other.identificacion);
     }
 
     

@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author USUARIO
  */
 public class Emprendedor extends Persona {
-    
+    private int num_reservas=0;
     private String descripcion_servicio;
     //id, nombre, telefono, email, nomResponsable, redes, descripcion
     public Emprendedor(String identificacion, String nombre, String telefono, String email, String nombre_de_responsable, ArrayList<Socials> redes_sociales, String des_service){
@@ -48,6 +48,14 @@ public class Emprendedor extends Persona {
     public String toString() {
         String s=super.toString();
         return   "Emprendedor{"+s + "descripcion_servicio=" + descripcion_servicio + '}';
+    }
+
+    public int getNum_reservas() {
+        return num_reservas;
+    }
+
+    public void setNum_reservas(int num_reservas) {
+        this.num_reservas = num_reservas;
     }
 
     

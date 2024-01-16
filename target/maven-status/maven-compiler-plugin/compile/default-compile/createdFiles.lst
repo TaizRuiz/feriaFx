@@ -1,7 +1,6 @@
 clases\Auspiciante.class
 clases\Persona.class
 com\mycompany\feria_poo\PrimaryController.class
-clasesEstaticas\AdministracionStands.class
 com\mycompany\feria_poo\AdministracionStansController.class
 clasesEstaticas\AdministracionEmprendedores.class
 clases\Socials.class

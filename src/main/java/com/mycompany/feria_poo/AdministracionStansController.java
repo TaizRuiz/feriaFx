@@ -9,12 +9,17 @@ import clases.Emprendedor;
 import clases.Feria;
 import clases.Persona;
 import clases.Seccion;
+import clases.Socials;
 import clases.Stand;
+import enums.TipoServicio;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,9 +27,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -46,7 +56,9 @@ public class AdministracionStansController implements Initializable {
     private ImageView btregresarS;
     private TableView<Feria> listaFeria=null;
     private Feria feria_seleccionada=null;
-    
+    private String persona_responsable="";
+    private String red_selected="";
+    private TipoServicio servicioOfertado=null;
     @FXML
     private BorderPane contenedorPrincipal;
     @FXML
@@ -118,10 +130,11 @@ public class AdministracionStansController implements Initializable {
         VBox cont_secciones=new VBox();
         for (Seccion sec:f.getSecciones()){
             for (Stand stand: sec.getStands()){
-               Label descripcion=(stand.getPersona_responsable()!=null)?new Label("[*"+stand.getCodigo()+"]"):new Label("["+stand.getCodigo()+"]");
+               boolean condicion=(!(stand.getPersona_responsable().isEmpty())) && (stand.getPersona_responsable().size()==2);
+               Label descripcion=(condicion)?new Label("[*"+stand.getCodigo()+"]"):new Label("["+stand.getCodigo()+"]");
                cont_secciones.getChildren().add(descripcion);
                VBox.setMargin(descripcion, new Insets(15));
-               if (stand.getPersona_responsable()!=null){
+               if (condicion){
                     descripcion.setOnMouseClicked(a->{
                         /*Mostrar el código del stand, fecha de asignación y la información del emprendedor o
                         auspiciante que tiene reservado el stand. Se debe mostrar nombre, teléfono, email
@@ -138,30 +151,42 @@ public class AdministracionStansController implements Initializable {
                         HBox cont_fecha=new HBox(fech,fecha);
                         HBox.setMargin(fech, new Insets(5));
                         HBox.setMargin(fecha, new Insets(5));
-                        Persona p=(stand.getPersona_responsable() instanceof Emprendedor)? (Emprendedor) stand.getPersona_responsable():(Auspiciante) stand.getPersona_responsable();
-                        Label nom=new Label("Persona o Institucion: ");
-                        Label nombre=new Label(p.getNombre());
-                        HBox cont_nom=new HBox(nom,nombre);
-                        HBox.setMargin(nom, new Insets(5));
-                        HBox.setMargin(nombre, new Insets(5));
-                        Label tel=new Label("Telefono: ");
-                        Label telefono=(p.getTelefono()!=null)?new Label(p.getTelefono()): new Label("no hay numero registrado");
-                        HBox cont_tel=new HBox(tel,telefono);
-                        HBox.setMargin(tel, new Insets(5));
-                        HBox.setMargin(telefono, new Insets(5));
-                        Label em=new Label("Email: ");
-                        Label email=(p.getEmail()!=null)?new Label(p.getEmail()): new Label("no hay email registrado");
-                        HBox cont_em=new HBox(em,email);
-                        HBox.setMargin(em, new Insets(5));
-                        HBox.setMargin(email, new Insets(5));
-                        info_stand.getChildren().addAll(reserva,cont_cod,cont_fecha,cont_nom,cont_em,cont_tel);
+                        info_stand.getChildren().addAll(reserva,cont_cod,cont_fecha);
+                        ArrayList<Persona> personas=stand.getPersona_responsable();
+                        if (!personas.isEmpty()){
+                           for (Persona p: personas){
+                            
+                            Persona per=(p instanceof Emprendedor)? (Emprendedor)p:(Auspiciante) p;
+                            Label nom=new Label("Persona o Institucion: ");
+                            Label nombre=new Label(per.getNombre());
+                            HBox cont_nom=new HBox(nom,nombre);
+                            HBox.setMargin(nom, new Insets(5));
+                            HBox.setMargin(nombre, new Insets(5));
+                            Label tel=new Label("Telefono: ");
+                            Label telefono=(per.getTelefono()!=null)?new Label(per.getTelefono()): new Label("no hay numero registrado");
+                            HBox cont_tel=new HBox(tel,telefono);
+                            HBox.setMargin(tel, new Insets(5));
+                            HBox.setMargin(telefono, new Insets(5));
+                            Label em=new Label("Email: ");
+                            Label email=(per.getEmail()!=null)?new Label(per.getEmail()): new Label("no hay email registrado");
+                            HBox cont_em=new HBox(em,email);
+                            HBox.setMargin(em, new Insets(5));
+                            HBox.setMargin(email, new Insets(5));
+                            VBox infoPer=new VBox(cont_nom,cont_tel,cont_em);
+                            info_stand.getChildren().add(infoPer);
+                        } 
+                        }
+                        
+                       
                         scena.setRight(info_stand);
                     });
                }else{
+                   /*significa que todavia hay un puesto en el stands o el stand esta vacio*/
+                   
                    descripcion.setOnMouseClicked(b->{
                        
-                        Label l=new Label("no reservado");
-                        scena.setRight(l);
+                      
+                        scena.setRight(ventana_reserva(stand,f));
                     });
                }
             }
@@ -173,5 +198,243 @@ public class AdministracionStansController implements Initializable {
         st.showAndWait();
         
     }
-    
+    public ScrollPane ventana_reserva(Stand st, Feria f){
+        Button guardar=new Button("Reservar");
+        ArrayList<Socials> socials=new ArrayList<>();
+        ScrollPane sp=new ScrollPane();
+        VBox container=new VBox();
+        ComboBox<String> opciones=new ComboBox<>(FXCollections.observableArrayList("Emprendedor","Auspiciante"));
+        
+        if (st.getPersona_responsable().size()==1){
+             ArrayList<Persona> personas=st.getPersona_responsable();
+                           for (Persona p: personas){
+                            
+                            Persona per=(p instanceof Emprendedor)? (Emprendedor)p:(Auspiciante) p;
+                            Label nom=new Label("Persona o Institucion: ");
+                            Label nombre=new Label(per.getNombre());
+                            HBox cont_nom=new HBox(nom,nombre);
+                            HBox.setMargin(nom, new Insets(5));
+                            HBox.setMargin(nombre, new Insets(5));
+                            Label tel=new Label("Telefono: ");
+                            Label telefono=(per.getTelefono()!=null)?new Label(per.getTelefono()): new Label("no hay numero registrado");
+                            HBox cont_tel=new HBox(tel,telefono);
+                            HBox.setMargin(tel, new Insets(5));
+                            HBox.setMargin(telefono, new Insets(5));
+                            Label em=new Label("Email: ");
+                            Label email=(per.getEmail()!=null)?new Label(per.getEmail()): new Label("no hay email registrado");
+                            HBox cont_em=new HBox(em,email);
+                            HBox.setMargin(em, new Insets(5));
+                            HBox.setMargin(email, new Insets(5));
+                            VBox infoPer=new VBox(cont_nom,cont_tel,cont_em);
+                            container.getChildren().add(infoPer);
+                       
+                        }
+        }
+        
+        container.getChildren().add(opciones);
+       
+        opciones.setOnAction(eh->{
+            persona_responsable=opciones.getValue();
+        });
+        
+      
+        /*private String identificacion;
+            private String nombre; 
+            private String telefono;
+            private String email; 
+            private String direccion; 
+            private String sitio_web;
+            private String nombre_de_responsable;
+            private ArrayList<Socials> redes_sociales;*/
+        
+             Label l_nombre=new Label("Nombre   :");
+            TextField nombre_field=new TextField();
+            HBox cont_name=new HBox(l_nombre,nombre_field);
+            cont_name.setSpacing(5);
+            /*identificacio*/
+            Label l_ide=new Label("Identificacion   :");
+            TextField ide_field=new TextField();
+            HBox cont_ide=new HBox(l_ide,ide_field);
+            cont_ide.setSpacing(5);
+            /*telefono*/
+            Label l_tel=new Label("Telefono   :");
+            TextField tel_field=new TextField();
+            HBox cont_tel=new HBox(l_tel,tel_field);
+            cont_tel.setSpacing(5);
+            /*email*/
+            Label l_em=new Label("Email  :");
+            TextField em_field=new TextField();
+            HBox cont_em=new HBox(l_em,em_field);
+            cont_em.setSpacing(5);
+            /*direccion*/
+            Label l_dir=new Label("Direccion  :");
+            TextField dir_field=new TextField();
+            HBox cont_dir=new HBox(l_dir,dir_field);
+            cont_dir.setSpacing(5);
+            /*Sitio Web*/
+            Label l_web=new Label("Sitio web:   ");
+            TextField web_field=new TextField();
+            HBox cont_web=new HBox(l_web,web_field);
+            cont_web.setSpacing(5);
+            /*nom responsable*/
+            Label l_resp=new Label("Nombre del responsable:");
+            TextField resp_field=new TextField();
+            HBox cont_resp=new HBox(l_resp,resp_field);
+            cont_resp.setSpacing(5);
+            /*redes sociales*/
+            HBox sociales=new HBox();
+            sociales.setPadding(new Insets(5));
+            sociales.setSpacing(5);
+            ComboBox<String> redes=new ComboBox<>(FXCollections.observableArrayList("Facebook","Instagram","Twitter","Tiktok"));
+            TextField username=new TextField();
+            username.setPromptText("Ingresa tu username");
+            Button registrarRed=new Button("Guardar red social");
+            sociales.getChildren().addAll(redes,username,registrarRed);
+            /*servicios*/
+            HBox serviciosh=new HBox();
+            serviciosh.setPadding(new Insets(5));
+            serviciosh.setSpacing(5);
+            Label ser=new Label("Servicio: ");
+            ComboBox<String> servicios=new ComboBox<>(FXCollections.observableArrayList("ALIMENTACIÓN", "EDUCACIÓN", "SALUD", "VESTIMENTA"));
+            serviciosh.getChildren().addAll(ser,servicios);
+            /*descripcion*/
+             Label l_des=new Label("Descripcion de servicio  :");
+            TextField des_field=new TextField();
+            HBox cont_des=new HBox(l_des,des_field);
+            cont_des.setSpacing(5);   
+         /*setea valor de servicio ofertado*/
+            servicios.setOnAction(eh->{
+               servicioOfertado=TipoServicio.valueOf(servicios.getValue());
+            });
+          /*setea valor de red social*/
+            redes.setOnAction(a->{
+                red_selected=redes.getValue();
+            });
+            
+           /*anade la red social a un array*/
+            registrarRed.setOnAction(eh->{
+                if (red_selected!="" && (!(username.getText().isBlank()|| username.getText().isEmpty()))){
+                    Socials social=new Socials(red_selected, username.getText());
+                    socials.add(social);
+                }
+                red_selected="";
+                redes.getSelectionModel().clearSelection();
+                username.clear();
+                
+                
+            });
+            
+        
+        /*boton de registro*/
+        /*valores para crear el objeto*/
+         /*private String identificacion;
+            private String nombre; 
+            private String telefono;
+            private String email; 
+            private String direccion; 
+            private String sitio_web;
+            private String nombre_de_responsable;
+            private ArrayList<Socials> redes_sociales;*/
+         
+        
+        TipoServicio tServ=(servicioOfertado==null)?null:servicioOfertado;
+        guardar.setOnAction(e->{
+           String nombre=(nombre_field.getText().isEmpty())?null:nombre_field.getText();
+            System.out.println(nombre);
+            String iden=(ide_field.getText().isEmpty())?null:ide_field.getText();
+            System.out.println(iden);
+            String tel=(tel_field.getText().isEmpty())?null:tel_field.getText();
+            System.out.println(tel);
+            String email=(em_field.getText().isEmpty())?null:em_field.getText();
+            System.out.println(email);
+            String dir=(dir_field.getText().isEmpty())?null:dir_field.getText();
+            System.out.println(dir);
+            String web=(web_field.getText().isEmpty())?null:web_field.getText();
+            System.out.println(web);
+            String resp=(resp_field.getText().isEmpty())?null:resp_field.getText();
+            System.out.println(resp);
+            ArrayList<Socials> soc=(socials.isEmpty())?null:socials;
+            String des=(des_field.getText().isEmpty())?null:des_field.getText();
+            System.out.println(nombre); 
+           
+            if (persona_responsable==""){
+                Alert a=new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Deber seleccionar si es Auspiciante o Emprendedor");
+                a.showAndWait();
+                e.consume();
+            }else{
+               
+                
+               
+                if (persona_responsable=="Emprendedor"){
+                    if (nombre==null || iden==null || resp==null || des==null){
+                        Alert a=new Alert(Alert.AlertType.ERROR);
+                        a.setContentText("Llene todos los campos necesarios:"+"\n"+"");
+                        a.showAndWait();
+                        e.consume();
+                    }else{
+                        Emprendedor emp=new Emprendedor(iden, nombre, tel, email, dir,resp, socials, des);
+                        System.out.println(emp.getIdentificacion()+" IDENTIFICACION");
+                        boolean excedente=false;
+                        boolean yaExiste=false;
+                        for (Persona p: st.getPersona_responsable()){
+                            if (p.getIdentificacion().equals(emp.getIdentificacion())){
+                                yaExiste=true;
+                            }
+                        }
+                        
+                        int contPersona=0;
+                        for (Seccion s:f.getSecciones()){
+                            for (Stand stnds: s.getStands()){
+                                for (Persona persona: stnds.getPersona_responsable()){
+                                    if (persona.getIdentificacion().equals(emp.getIdentificacion())){
+                                        contPersona++;
+                                    }
+                                }
+                            }
+                        }
+                        if (contPersona>2){
+                            excedente=true;
+                        }
+                        
+                       if(excedente==false && yaExiste==false){
+                           st.getPersona_responsable().add(emp);
+                          
+                           Stage stage=(Stage)sp.getScene().getWindow();
+                           stage.close();
+                            try {
+                                App.setRoot("administracionStans");
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                       }else{
+                           if (excedente){
+                               Alert a=new Alert(Alert.AlertType.ERROR);
+                                a.setContentText("Usted excede el numero de stands permitidos"+"\n"+"");
+                                a.showAndWait();
+                                e.consume();
+                           }
+                           if (yaExiste){
+                               Alert a=new Alert(Alert.AlertType.ERROR);
+                            a.setContentText("Usted ya esta registrado en este stand"+"\n"+"");
+                            a.showAndWait();
+                            e.consume();
+                           }
+                       }
+                    }
+                    
+                }
+                if(persona_responsable=="Auspiciante"){
+                    
+                }
+            }
+        });
+        container.getChildren().addAll(cont_name,cont_ide,cont_em,cont_resp,cont_web,cont_tel,cont_des,sociales,serviciosh,guardar);
+        container.setSpacing(10);
+        container.setPadding(new Insets(10));
+        sp.setContent(container);
+        return sp;
+                        
+    }
+        
 }

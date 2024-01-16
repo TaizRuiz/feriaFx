@@ -417,9 +417,12 @@ public class AdministracionFeriaController implements Initializable {
         String s="";
         for(Seccion sec:f.getSecciones()){
             for (Stand st: sec.getStands()){
-                Persona persona=(st.getPersona_responsable()!=null)?st.getPersona_responsable():null;
                 
-                if (persona!=null){
+                
+                ArrayList<Persona> personas=(!st.getPersona_responsable().isEmpty())?st.getPersona_responsable():null;
+                if (personas!=null){
+                for (Persona persona: personas){
+                
                         String infoEmp="";
                         System.out.println(persona);
                        String nombre_emprendedor=persona.getNombre();
@@ -432,7 +435,7 @@ public class AdministracionFeriaController implements Initializable {
                        s+="\n"+infoEmp+"\n";
    
                 }
-                
+                }
             }
             
           
@@ -444,9 +447,9 @@ public class AdministracionFeriaController implements Initializable {
         for(Seccion sec:f.getSecciones()){
             for (Stand st: sec.getStands()){
                 
-                Persona persona=(st.getPersona_responsable()!=null)?st.getPersona_responsable():null;
+               Boolean persona=(st.getPersona_responsable().isEmpty() || st.getPersona_responsable()==null)?false:true;
                 
-                if (persona!=null){
+                if (persona){
                        
                     s+="[*"+st.getCodigo()+"]"+"-->Reservado"+"\n";
                 }else{

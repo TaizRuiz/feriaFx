@@ -3,6 +3,7 @@ package com.mycompany.feria_poo;
 import clases.Auspiciante;
 import clases.Emprendedor;
 import clases.Feria;
+import clases.Persona;
 import clases.Seccion;
 import clases.Socials;
 import enums.TipoServicio;
@@ -77,24 +78,30 @@ public class App extends Application {
         ArrayList<Socials> redes=new ArrayList<>();
         redes.add(new Socials("Facebook","user"));
         Emprendedor e1=new Emprendedor("0914463815","Tuty", "0981383239","dtruiz@live.com","Dafne",redes,"Emprendimiento");
-        feria2.getSecciones()[0].getStands()[0].setPersona_responsable(e1);
+        Emprendedor e2=new Emprendedor("0914463815","Tut", "0981383239","dtruiz@live.com","Dafne",redes,"Emprendimiento");
+        ArrayList<Persona> p=new ArrayList<>();
+        p.add(e1);
+        p.add(e2);
+                
+        feria2.getSecciones()[0].getStands()[0].setPersona_responsable(p);
         feria2.getSecciones()[0].getStands()[0].setFechaAsignacion(LocalDate.now());
-        emprendedores.add(e1);
+        emprendedores.add((Emprendedor)e1);
         
-        Emprendedor e2=new Emprendedor("09506375557","Tia", "0968933048","kerimaga@espol.edu.ec","Kevin",redes,"Emprendimiento");
-        feria1.getSecciones()[1].getStands()[1].setPersona_responsable(e2);
+        Emprendedor e3=new Emprendedor("09506375557","Tia", "0968933048","kerimaga@espol.edu.ec","Kevin",redes,"Emprendimiento");
+        ArrayList<Persona> p3=new ArrayList<>();
+        p3.add(e3);
+        feria1.getSecciones()[1].getStands()[1].setPersona_responsable(p3);
         feria1.getSecciones()[1].getStands()[1].setFechaAsignacion(LocalDate.now());
-        emprendedores.add(e2);
-       
-        Emprendedor e3=new Emprendedor("0978787820","Espol", "09787878","kerimaga@espol.edu.ec","Ricardo",redes,"Emprendimiento");
-        feria1.getSecciones()[2].getStands()[1].setPersona_responsable(e3);
-        feria1.getSecciones()[2].getStands()[1].setFechaAsignacion(LocalDate.now());
-        emprendedores.add(e3);
+        emprendedores.add((Emprendedor)e3);
         
-        Emprendedor e4=new Emprendedor("0993939393","Comisariato", "0978989632","kerimaga@espol.edu.ec","Thayz",redes,"Emprendimiento");
-        feria1.getSecciones()[3].getStands()[0].setPersona_responsable(e4);
-        feria1.getSecciones()[3].getStands()[0].setFechaAsignacion(LocalDate.now());
-        emprendedores.add(e4);
+        Emprendedor e4=new Emprendedor("0978787820","Espol", "09787878","kerimaga@espol.edu.ec","Ricardo",redes,"Emprendimiento");
+         ArrayList<Persona> p4=new ArrayList<>();
+        p4.add(e4);
+        feria1.getSecciones()[2].getStands()[1].setPersona_responsable(p4);
+        feria1.getSecciones()[2].getStands()[1].setFechaAsignacion(LocalDate.now());
+        emprendedores.add((Emprendedor)e4);
+        
+       
         
         //String identificacion, String nombre, String telefono, String email, String nombre_de_responsable, ArrayList<Socials> redes_sociales, String sector_cubierto
         Auspiciante auspiciante = new Auspiciante("09121212", "ESPOL", "1234567891", "kevinricki-2002@hotmail.com", "Kevin", redes, TipoServicio.ALIMENTACIÓN);

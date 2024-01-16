@@ -5,6 +5,7 @@
 package clases;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,10 +16,10 @@ public class Stand {
     private static int num_codigo=1;
     private int codigo;
     private LocalDate fechaAsignacion;
-    private Persona persona_responsable;
+    private ArrayList<Persona> persona_responsable;
     public Stand (){
         this.codigo=(num_codigo++);
-        this.persona_responsable=null;
+        this.persona_responsable=new ArrayList();
         
     }
 
@@ -46,11 +47,11 @@ public class Stand {
         this.fechaAsignacion = fechaAsignacion;
     }
 
-    public Persona getPersona_responsable() {
+    public ArrayList<Persona> getPersona_responsable() {
         return persona_responsable;
     }
 
-    public void setPersona_responsable(Persona persona_responsable) {
+    public void setPersona_responsable(ArrayList<Persona> persona_responsable) {
         this.persona_responsable = persona_responsable;
     }
     

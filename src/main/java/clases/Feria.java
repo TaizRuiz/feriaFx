@@ -139,10 +139,10 @@ public class Feria {
         int cont=0;
         for (Seccion s: this.getSecciones()){
             for (Stand st:s.getStands()){
-                if (st.getPersona_responsable()!=null){
-                    cont++;
+                cont+=st.getPersona_responsable().size();
                 }
-            }
+              
+            
         }
         return cont;
     }
