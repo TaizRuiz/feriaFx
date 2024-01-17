@@ -305,6 +305,7 @@ public class AdministracionStansController implements Initializable {
          /*setea valor de servicio ofertado*/
             servicios.setOnAction(eh->{
                servicioOfertado=TipoServicio.valueOf(servicios.getValue());
+               System.out.println(servicioOfertado+" servicio ofertada");
             });
           /*setea valor de red social*/
             redes.setOnAction(a->{
@@ -337,8 +338,9 @@ public class AdministracionStansController implements Initializable {
             private ArrayList<Socials> redes_sociales;*/
          
         
-        TipoServicio tServ=(servicioOfertado==null)?null:servicioOfertado;
+
         guardar.setOnAction(e->{
+            TipoServicio tServ=(servicioOfertado==null)?null:servicioOfertado;
            String nombre=(nombre_field.getText().isEmpty())?null:nombre_field.getText();
             System.out.println(nombre);
             String iden=(ide_field.getText().isEmpty())?null:ide_field.getText();
@@ -367,6 +369,7 @@ public class AdministracionStansController implements Initializable {
                 
                
                 if (persona_responsable=="Emprendedor"){
+                    /*me aseguro que los campos necesarios para emprendedor esten llenos el resto no son relevantes*/
                     if (nombre==null || iden==null || resp==null || des==null){
                         Alert a=new Alert(Alert.AlertType.ERROR);
                         a.setContentText("Llene todos los campos necesarios:"+"\n"+"");
@@ -387,7 +390,7 @@ public class AdministracionStansController implements Initializable {
                         for (Seccion s:f.getSecciones()){
                             for (Stand stnds: s.getStands()){
                                 for (Persona persona: stnds.getPersona_responsable()){
-                                    if (persona.getIdentificacion().equals(emp.getIdentificacion())){
+                                    if (persona.equals(emp)){
                                         contPersona++;
                                     }
                                 }
@@ -425,7 +428,47 @@ public class AdministracionStansController implements Initializable {
                     
                 }
                 if(persona_responsable=="Auspiciante"){
-                    
+                    System.out.println(servicioOfertado+" servicio ofertada dentro de auspiciante");
+                    /*me aseguro que los datos necesarios esten obligatoriamente llenos */
+                    Auspiciante auspiciante=new Auspiciante(iden, nombre, tel, email, dir, resp, socials,tServ);
+                    System.out.println(auspiciante.toString());
+                    System.out.println(auspiciante.getSector_cubierto()+" SERVICIO");
+                    System.out.println(nombre+" NOMBRE");
+                    System.out.println(iden+" IDEN");
+                    System.out.println(resp+" RESP");
+                    System.out.println(tServ+" TIPO_SERVICIO");
+                     if (nombre==null || iden==null || resp==null || tServ==null){
+                        Alert a=new Alert(Alert.AlertType.ERROR);
+                        a.setContentText("Llene todos los campos necesarios:"+"\n"+"");
+                        a.showAndWait();
+                        e.consume();
+                         
+                     }else{
+                         
+                         boolean yaExiste=false;
+                        for (Persona p: st.getPersona_responsable()){
+                            if (p.equals(auspiciante)){
+                                yaExiste=true;
+                            }
+                        }
+                        if (!yaExiste){
+                           f.getlAuspiciantes().add(auspiciante);
+                          
+                           Stage stage=(Stage)sp.getScene().getWindow();
+                           stage.close();
+                            try {
+                                App.setRoot("administracionStans");
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        }else{
+                           Alert a=new Alert(Alert.AlertType.ERROR);
+                        a.setContentText("Usted ya auspicia este stand"+"\n"+"");
+                        a.showAndWait();
+                        e.consume(); 
+                        }
+                         
+                     }
                 }
             }
         });

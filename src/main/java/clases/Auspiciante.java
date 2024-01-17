@@ -46,6 +46,11 @@ public class Auspiciante extends Persona {
     public void setIncluye_stand(boolean incluye_stand) {
         this.incluye_stand = incluye_stand;
     }
+
+    @Override
+    public String toString() {
+        return "Auspiciante{" + "sector_cubierto=" + sector_cubierto + '}';
+    }
     
     
 }
