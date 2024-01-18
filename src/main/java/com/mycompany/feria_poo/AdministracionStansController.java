@@ -79,7 +79,7 @@ public class AdministracionStansController implements Initializable {
             ex.printStackTrace();
         }
     }
-    
+    /*muestra la tabla con las ferias registradas*/
     public void cargarFerias(){
         listaFeria = new TableView();
         TableColumn<Feria,Integer> colCodigo = new TableColumn<>("Codigo");
@@ -109,7 +109,9 @@ public class AdministracionStansController implements Initializable {
     }
 
     @FXML
+    /*mdtodo de visualizacion y reserva*/
     private void verStands(ActionEvent event) {
+        /*valida que el usuario seleccione una feria */
         if (this.feria_seleccionada!=null){
             panelStands(feria_seleccionada);
            
@@ -120,7 +122,7 @@ public class AdministracionStansController implements Initializable {
             event.consume();
         }
     }
-    
+    /*Muestra los stands de la feria seleccionada*/
     private void panelStands(Feria f){
         Stage st=new Stage();
         BorderPane scena=new BorderPane();
@@ -130,10 +132,13 @@ public class AdministracionStansController implements Initializable {
         VBox cont_secciones=new VBox();
         for (Seccion sec:f.getSecciones()){
             for (Stand stand: sec.getStands()){
+                /*si la lista de responsables NO esta vacia y su longitud es EXACTAMENTE 2 el stand esta full*/
                boolean condicion=(!(stand.getPersona_responsable().isEmpty())) && (stand.getPersona_responsable().size()==2);
+               /*descripcion formato que define la disponibilidad de un stand*/
                Label descripcion=(condicion)?new Label("[*"+stand.getCodigo()+"]"):new Label("["+stand.getCodigo()+"]");
                cont_secciones.getChildren().add(descripcion);
                VBox.setMargin(descripcion, new Insets(15));
+               /*si el stand esta full solo se muestra la info de las reservas*/
                if (condicion){
                     descripcion.setOnMouseClicked(a->{
                         /*Mostrar el código del stand, fecha de asignación y la información del emprendedor o
@@ -155,37 +160,19 @@ public class AdministracionStansController implements Initializable {
                         ArrayList<Persona> personas=stand.getPersona_responsable();
                         if (!personas.isEmpty()){
                            for (Persona p: personas){
-                            
-                            Persona per=(p instanceof Emprendedor)? (Emprendedor)p:(Auspiciante) p;
-                            Label nom=new Label("Persona o Institucion: ");
-                            Label nombre=new Label(per.getNombre());
-                            HBox cont_nom=new HBox(nom,nombre);
-                            HBox.setMargin(nom, new Insets(5));
-                            HBox.setMargin(nombre, new Insets(5));
-                            Label tel=new Label("Telefono: ");
-                            Label telefono=(per.getTelefono()!=null)?new Label(per.getTelefono()): new Label("no hay numero registrado");
-                            HBox cont_tel=new HBox(tel,telefono);
-                            HBox.setMargin(tel, new Insets(5));
-                            HBox.setMargin(telefono, new Insets(5));
-                            Label em=new Label("Email: ");
-                            Label email=(per.getEmail()!=null)?new Label(per.getEmail()): new Label("no hay email registrado");
-                            HBox cont_em=new HBox(em,email);
-                            HBox.setMargin(em, new Insets(5));
-                            HBox.setMargin(email, new Insets(5));
-                            VBox infoPer=new VBox(cont_nom,cont_tel,cont_em);
-                            info_stand.getChildren().add(infoPer);
+
+                            info_stand.getChildren().add(infoPersona(p));
                         } 
                         }
                         
-                       
+                       /*setea ese panel de informacion en la derecha del panel principal */
                         scena.setRight(info_stand);
                     });
                }else{
                    /*significa que todavia hay un puesto en el stands o el stand esta vacio*/
                    
                    descripcion.setOnMouseClicked(b->{
-                       
-                      
+
                         scena.setRight(ventana_reserva(stand,f));
                     });
                }
@@ -198,18 +185,9 @@ public class AdministracionStansController implements Initializable {
         st.showAndWait();
         
     }
-    public ScrollPane ventana_reserva(Stand st, Feria f){
-        Button guardar=new Button("Reservar");
-        ArrayList<Socials> socials=new ArrayList<>();
-        ScrollPane sp=new ScrollPane();
-        VBox container=new VBox();
-        ComboBox<String> opciones=new ComboBox<>(FXCollections.observableArrayList("Emprendedor","Auspiciante"));
-        
-        if (st.getPersona_responsable().size()==1){
-             ArrayList<Persona> personas=st.getPersona_responsable();
-                           for (Persona p: personas){
-                            
-                            Persona per=(p instanceof Emprendedor)? (Emprendedor)p:(Auspiciante) p;
+    /*metodo que muestra la info de una persona */
+    public VBox infoPersona(Persona p){
+        Persona per=(p instanceof Emprendedor)? (Emprendedor)p:(Auspiciante) p;
                             Label nom=new Label("Persona o Institucion: ");
                             Label nombre=new Label(per.getNombre());
                             HBox cont_nom=new HBox(nom,nombre);
@@ -226,13 +204,27 @@ public class AdministracionStansController implements Initializable {
                             HBox.setMargin(em, new Insets(5));
                             HBox.setMargin(email, new Insets(5));
                             VBox infoPer=new VBox(cont_nom,cont_tel,cont_em);
-                            container.getChildren().add(infoPer);
+                            
+                            return infoPer;
+    }
+    public ScrollPane ventana_reserva(Stand st, Feria f){
+        Button guardar=new Button("Reservar");
+        ArrayList<Socials> socials=new ArrayList<>();
+        ScrollPane sp=new ScrollPane();
+        VBox container=new VBox();
+        ComboBox<String> opciones=new ComboBox<>(FXCollections.observableArrayList("Emprendedor","Auspiciante"));
+        /*caso donde hay un puesto disponible*/
+        if (st.getPersona_responsable().size()==1){
+             ArrayList<Persona> personas=st.getPersona_responsable();
+                           for (Persona p: personas){
+                           /*se muestra info de la persona que ya reservo*/
+                            container.getChildren().add(infoPersona(p));
                        
                         }
         }
-        
+        /*luego de esto se da la opcion de registrar un emprendedor mas*/
+        /*comboBox con opciones de tipo de usuario (Auspiciante o Emprendedor)*/
         container.getChildren().add(opciones);
-       
         opciones.setOnAction(eh->{
             persona_responsable=opciones.getValue();
         });
@@ -340,34 +332,26 @@ public class AdministracionStansController implements Initializable {
         
 
         guardar.setOnAction(e->{
+            /*Accion de guardar*/
+            /*toma los valores de los labels */
             TipoServicio tServ=(servicioOfertado==null)?null:servicioOfertado;
-           String nombre=(nombre_field.getText().isEmpty())?null:nombre_field.getText();
-            System.out.println(nombre);
+            String nombre=(nombre_field.getText().isEmpty())?null:nombre_field.getText();
             String iden=(ide_field.getText().isEmpty())?null:ide_field.getText();
-            System.out.println(iden);
             String tel=(tel_field.getText().isEmpty())?null:tel_field.getText();
-            System.out.println(tel);
             String email=(em_field.getText().isEmpty())?null:em_field.getText();
-            System.out.println(email);
             String dir=(dir_field.getText().isEmpty())?null:dir_field.getText();
-            System.out.println(dir);
             String web=(web_field.getText().isEmpty())?null:web_field.getText();
-            System.out.println(web);
             String resp=(resp_field.getText().isEmpty())?null:resp_field.getText();
-            System.out.println(resp);
             ArrayList<Socials> soc=(socials.isEmpty())?null:socials;
             String des=(des_field.getText().isEmpty())?null:des_field.getText();
-            System.out.println(nombre); 
-           
+           /*valida que selecciones el tipo de persona que reserva*/
             if (persona_responsable==""){
                 Alert a=new Alert(Alert.AlertType.ERROR);
                 a.setContentText("Deber seleccionar si es Auspiciante o Emprendedor");
                 a.showAndWait();
                 e.consume();
             }else{
-               
-                
-               
+               /*si el que reserva es emprendedor*/
                 if (persona_responsable=="Emprendedor"){
                     /*me aseguro que los campos necesarios para emprendedor esten llenos el resto no son relevantes*/
                     if (nombre==null || iden==null || resp==null || des==null){
@@ -376,33 +360,12 @@ public class AdministracionStansController implements Initializable {
                         a.showAndWait();
                         e.consume();
                     }else{
+                        /*si los campos relevantes fueron ingresados crea el objeto emprendedor*/
                         Emprendedor emp=new Emprendedor(iden, nombre, tel, email, dir,resp, socials, des);
-                        System.out.println(emp.getIdentificacion()+" IDENTIFICACION");
-                        boolean excedente=false;
-                        boolean yaExiste=false;
-                        for (Persona p: st.getPersona_responsable()){
-                            if (p.getIdentificacion().equals(emp.getIdentificacion())){
-                                yaExiste=true;
-                            }
-                        }
-                        
-                        int contPersona=0;
-                        for (Seccion s:f.getSecciones()){
-                            for (Stand stnds: s.getStands()){
-                                for (Persona persona: stnds.getPersona_responsable()){
-                                    if (persona.equals(emp)){
-                                        contPersona++;
-                                    }
-                                }
-                            }
-                        }
-                        if (contPersona>2){
-                            excedente=true;
-                        }
-                        
-                       if(excedente==false && yaExiste==false){
+                        /*valida*/
+                       if(registro_duplicado(st, f, emp)==false && excede_registros(st, f, emp)==false){
+                           /*add a la lista de emprendedores de ese stand*/
                            st.getPersona_responsable().add(emp);
-                          
                            Stage stage=(Stage)sp.getScene().getWindow();
                            stage.close();
                             try {
@@ -411,13 +374,14 @@ public class AdministracionStansController implements Initializable {
                                 ex.printStackTrace();
                             }
                        }else{
-                           if (excedente){
+                           /*muestra por que no se pudo realizar el registro*/
+                           if (excede_registros(st, f, emp)){
                                Alert a=new Alert(Alert.AlertType.ERROR);
                                 a.setContentText("Usted excede el numero de stands permitidos"+"\n"+"");
                                 a.showAndWait();
                                 e.consume();
                            }
-                           if (yaExiste){
+                           if (registro_duplicado(st, f, emp)){
                                Alert a=new Alert(Alert.AlertType.ERROR);
                             a.setContentText("Usted ya esta registrado en este stand"+"\n"+"");
                             a.showAndWait();
@@ -431,12 +395,7 @@ public class AdministracionStansController implements Initializable {
                     System.out.println(servicioOfertado+" servicio ofertada dentro de auspiciante");
                     /*me aseguro que los datos necesarios esten obligatoriamente llenos */
                     Auspiciante auspiciante=new Auspiciante(iden, nombre, tel, email, dir, resp, socials,tServ);
-                    System.out.println(auspiciante.toString());
-                    System.out.println(auspiciante.getSector_cubierto()+" SERVICIO");
-                    System.out.println(nombre+" NOMBRE");
-                    System.out.println(iden+" IDEN");
-                    System.out.println(resp+" RESP");
-                    System.out.println(tServ+" TIPO_SERVICIO");
+                  
                      if (nombre==null || iden==null || resp==null || tServ==null){
                         Alert a=new Alert(Alert.AlertType.ERROR);
                         a.setContentText("Llene todos los campos necesarios:"+"\n"+"");
@@ -445,15 +404,9 @@ public class AdministracionStansController implements Initializable {
                          
                      }else{
                          
-                         boolean yaExiste=false;
-                        for (Persona p: st.getPersona_responsable()){
-                            if (p.equals(auspiciante)){
-                                yaExiste=true;
-                            }
-                        }
-                        if (!yaExiste){
+                         
+                        if (registro_duplicado(st, f, auspiciante)==false){
                            f.getlAuspiciantes().add(auspiciante);
-                          
                            Stage stage=(Stage)sp.getScene().getWindow();
                            stage.close();
                             try {
@@ -463,9 +416,9 @@ public class AdministracionStansController implements Initializable {
                             }
                         }else{
                            Alert a=new Alert(Alert.AlertType.ERROR);
-                        a.setContentText("Usted ya auspicia este stand"+"\n"+"");
-                        a.showAndWait();
-                        e.consume(); 
+                            a.setContentText("Usted ya auspicia este stand"+"\n"+"");
+                            a.showAndWait();
+                            e.consume(); 
                         }
                          
                      }
@@ -479,5 +432,30 @@ public class AdministracionStansController implements Initializable {
         return sp;
                         
     }
-        
+    public boolean excede_registros(Stand st, Feria f, Persona emp){
+        boolean excedente=false;
+        int contPersona=0;
+                        for (Seccion s:f.getSecciones()){
+                            for (Stand stnds: s.getStands()){
+                                for (Persona persona: stnds.getPersona_responsable()){
+                                    if (persona.equals(emp)){
+                                        contPersona++;
+                                    }
+                                }
+                            }
+                        }
+                        if (contPersona>2){
+                            excedente=true;
+                        }
+        return excedente;
+    }   
+    public boolean registro_duplicado(Stand st, Feria f, Persona emp){
+                        boolean yaExiste=false;
+                        for (Persona p: st.getPersona_responsable()){
+                            if (p.getIdentificacion().equals(emp.getIdentificacion())){
+                                yaExiste=true;
+                            }
+                        }           
+        return yaExiste;
+    }
 }
