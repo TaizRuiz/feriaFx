@@ -4,11 +4,13 @@
  */
 package clases;
 
+import java.io.Serializable;
+
 /**
  *
  * @author USUARIO
  */
-public class Socials {
+public class Socials implements Serializable{
     private String nombre_de_red_social;
     private String username;
 

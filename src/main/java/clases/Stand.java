@@ -4,6 +4,7 @@
  */
 package clases;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author USUARIO
  */
-public class Stand {
+public class Stand  implements Serializable{
 
     private static int num_codigo=1;
     private int codigo;

@@ -85,13 +85,14 @@ public class AdministracionStansController implements Initializable {
         TableColumn<Feria,Integer> colCodigo = new TableColumn<>("Codigo");
         colCodigo.setMaxWidth(50);
         TableColumn<Feria, String> colNombre = new TableColumn<>("Nombre");
-        TableColumn<Feria, LocalDate> colFechaInicio = new TableColumn<>("Fecha");
+        TableColumn<Feria, String> colFechaInicio = new TableColumn<>("Fecha");
         TableColumn<Feria, String> colLugar = new TableColumn<>("Lugar");
         TableColumn<Feria, Integer> colCantAusp = new TableColumn<>("Num Auspiciantes");
         TableColumn<Feria, Integer> colCantEmpr = new TableColumn<>("Num Emprendedores");
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colFechaInicio.setCellValueFactory(cellData -> cellData.getValue().getfIn());
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fIn"));
+        
         colLugar.setCellValueFactory(new PropertyValueFactory<>("lugar"));
         colCantAusp.setCellValueFactory(new PropertyValueFactory<>("cantAusp"));
         colCantEmpr.setCellValueFactory(new PropertyValueFactory<>("cantEmprendedores"));
@@ -366,6 +367,7 @@ public class AdministracionStansController implements Initializable {
                        if(registro_duplicado(st, f, emp)==false && excede_registros(st, f, emp)==false){
                            /*add a la lista de emprendedores de ese stand*/
                            st.getPersona_responsable().add(emp);
+                           st.setFechaAsignacion(LocalDate.now());
                            Stage stage=(Stage)sp.getScene().getWindow();
                            stage.close();
                             try {

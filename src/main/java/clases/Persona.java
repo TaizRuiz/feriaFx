@@ -4,6 +4,8 @@
  */
 package clases;
 
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -11,7 +13,7 @@ import java.util.Objects;
  *
  * @author USUARIO
  */
-public class Persona {
+public class Persona implements Serializable{
     private String identificacion;
     private String nombre; 
     private String telefono;

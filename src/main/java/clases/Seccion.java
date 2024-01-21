@@ -4,11 +4,13 @@
  */
 package clases;
 
+import java.io.Serializable;
+
 /**
  *
  * @author USUARIO
  */
-public class Seccion {
+public class Seccion implements Serializable{
     private int num_stands;
     private Stand[] stands;
 

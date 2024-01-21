@@ -7,6 +7,8 @@ import clases.Persona;
 import clases.Seccion;
 import clases.Socials;
 import enums.TipoServicio;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.scene.layout.Background;
@@ -33,10 +37,10 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"),800,500);
         
-        ferias=new ArrayList<>();
-        emprendedores=new ArrayList<>();
-        auspiciantes=new ArrayList<>();
-        cargarFeria();
+        ferias=deser_ferias();
+        emprendedores=deser_emprendedor();
+        auspiciantes=deser_auspi();
+        
         BackgroundFill backgroundFill = new BackgroundFill(Color.SKYBLUE, null, null);
         Background background = new Background(backgroundFill);
 
@@ -46,6 +50,10 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         
+        stage.setOnCloseRequest(eh->{
+            guardar_datos();
+        });
+       
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -122,5 +130,75 @@ public class App extends Application {
         
     }
     
+    public void guardar_datos(){
+        try {
+      System.out.println("SEREALIZADO ferias");
+      ObjectOutputStream serializado = new ObjectOutputStream(
+      new FileOutputStream("listaFerias.ser"));
+      serializado.writeObject(ferias);
+      serializado.close();
+      
+            System.out.println("serializado emprendedores");
+      ObjectOutputStream serializado_emprendedores = new ObjectOutputStream(
+      new FileOutputStream("listaEmprendedores.ser"));
+      serializado_emprendedores.writeObject(emprendedores);
+      serializado_emprendedores.close();
+      
+            System.out.println("serializado auspiciantes");
+      ObjectOutputStream serializado_auspi = new ObjectOutputStream(
+      new FileOutputStream("listaAuspiciantes.ser"));
+      serializado_auspi.writeObject(auspiciantes);
+      serializado_auspi.close();
 
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+    }
+    
+    public ArrayList<Feria> deser_ferias(){
+        ArrayList<Feria> s=new ArrayList<>();
+        try {
+      System.out.println("DESERIALIZADO");
+      ObjectInputStream deserializado = new ObjectInputStream(
+          new FileInputStream("listaFerias.ser"));
+         s = (ArrayList<Feria>) deserializado.readObject();
+
+      System.out.println(s);
+
+    } catch (Exception e) {
+      System.out.println(e);
+    } 
+        return s;
+    }
+    
+    public ArrayList<Emprendedor> deser_emprendedor(){
+        ArrayList<Emprendedor> s=new ArrayList<>();
+        try {
+      System.out.println("DESERIALIZADO");
+      ObjectInputStream deserializado = new ObjectInputStream(
+          new FileInputStream("listaEmprendedores.ser"));
+         s = (ArrayList<Emprendedor>) deserializado.readObject();
+
+      System.out.println(s);
+
+    } catch (Exception e) {
+      System.out.println(e);
+    } 
+        return s;
+    }
+    public ArrayList<Auspiciante> deser_auspi(){
+        ArrayList<Auspiciante> s=new ArrayList<>();
+        try {
+      System.out.println("DESERIALIZADO");
+      ObjectInputStream deserializado = new ObjectInputStream(
+          new FileInputStream("listaAuspiciantes.ser"));
+         s = (ArrayList<Auspiciante>) deserializado.readObject();
+
+      System.out.println(s);
+
+    } catch (Exception e) {
+      System.out.println(e);
+    } 
+        return s;
+    }
 }

@@ -114,6 +114,14 @@ public class AdministracionFeriaController implements Initializable {
 
     @FXML
     private void editar(MouseEvent event) {
+        if (this.feria_seleccionada!=null){
+            editar_feria(feria_seleccionada);
+        }else{
+            Alert a=new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Selecciona una feria");
+            a.showAndWait();
+            event.consume();
+        }
     }
 
     @FXML
@@ -156,19 +164,178 @@ public class AdministracionFeriaController implements Initializable {
         }
     }
 
-    
+    public void editar_feria(Feria f){
+                
+        Label l_nombre=new Label("Nombre de la feria:");
+        TextField nombre_field=new TextField();
+        nombre_field.setText(f.getNombre());
+        HBox cont_name=new HBox(l_nombre,nombre_field);
+        /*lugar*/
+        Label l_lugar=new Label("Lugar de la feria:");
+        TextField lugar_field=new TextField();
+        lugar_field.setText(f.getLugar());
+        HBox cont_lugar=new HBox(l_lugar,lugar_field);
+        /*descripcion*/
+        Label l_descripcion=new Label("Descripcion de la feria:");
+        TextArea descripcion_field=new TextArea();
+        descripcion_field.setText(f.getDescripcion());
+        descripcion_field.setMaxSize(160,80);
+        HBox cont_descripcion=new HBox(l_descripcion,descripcion_field);
+        
+        /*fechas*/
+        Label l_fecha=new Label("Fecha de inicio:");      
+        DatePicker fechaInicio = new DatePicker(); 
+        fechaInicio.setValue(f.getfInicio());
+        if (!LocalDate.now().isBefore(f.getfInicio())){
+            fechaInicio.setEditable(false);
+        }
+                
+       fechaInicio.setOnAction(e -> System.out.println( fechaInicio.getValue()));
+        HBox cont_fInicio=new HBox(l_fecha,fechaInicio);
+        /*fecha fin*/
+         Label l_fechaFin=new Label("Fecha de Fin:");
+        DatePicker fechaFin = new DatePicker(); 
+        fechaFin.setValue(f.getfFin());
+        if (f.getfFin().isBefore(LocalDate.now())){
+            fechaFin.setEditable(false);
+        }
+        fechaFin.setOnAction(e -> System.out.println( fechaFin.getValue()));
+        HBox cont_fFin=new HBox(l_fechaFin,fechaFin);
+        Stage s=new Stage();
+        BorderPane bp=new BorderPane();
+        VBox contLabels=new VBox();
+        
+        /*Hora de inicio*/
+        Label l_horario=new Label("Horario de la feria:");
+        TextField horario_field=new TextField();
+        horario_field.setText(f.getHorario());
+        horario_field.setMaxWidth(50);
+        HBox cont_horario=new HBox(l_horario,horario_field);
+        /*Numero de stands*/
+        Label stands=new Label("Ingresa la cantidad de stands por seccion");
+        Label l_sec1=new Label("Seccion 1:");
+        TextField sec1_field=new TextField();
+        sec1_field.setText(String.valueOf(f.getSecciones()[0].getNum_stands()));
+        sec1_field.setEditable(false);
+        sec1_field.setMaxSize(50,10);
+        Label l_sec2=new Label("Seccion 2:");
+        TextField sec2_field=new TextField();
+        sec2_field.setEditable(false);
+        sec2_field.setText(String.valueOf(f.getSecciones()[1].getNum_stands()));
+        sec2_field.setMaxSize(50,10);
+        Label l_sec3=new Label("Seccion 3:");
+        TextField sec3_field=new TextField();
+        sec3_field.setEditable(false);
+        sec3_field.setText(String.valueOf(f.getSecciones()[2].getNum_stands()));
+        sec3_field.setMaxSize(50,10);
+        Label l_sec4=new Label("Seccion 4:");
+        TextField sec4_field=new TextField();
+        sec4_field.setEditable(false);
+        sec4_field.setText(String.valueOf(f.getSecciones()[3].getNum_stands()));
+        sec4_field.setMaxSize(50,10);
+        HBox cont_sec1=new HBox(l_sec1,sec1_field);
+        HBox cont_sec2=new HBox(l_sec2,sec2_field);
+        HBox cont_sec3=new HBox(l_sec3,sec3_field);
+        HBox cont_sec4=new HBox(l_sec4,sec4_field);
+        
+        ScrollPane sp=new ScrollPane();
+        Label titulo=new Label("Registrar nueva feria");
+        bp.setTop(titulo);
+        contLabels.getChildren().addAll(cont_name, cont_lugar,cont_descripcion,cont_fInicio, cont_fFin,cont_horario,stands,cont_sec1
+        ,cont_sec2,cont_sec3,cont_sec4);
+        sp.setContent(contLabels);
+        VBox.setMargin(stands, new Insets(10));
+        HBox.setMargin(l_horario, new Insets(10));
+        HBox.setMargin(horario_field, new Insets(10));
+        HBox.setMargin(l_sec1, new Insets(10));
+        HBox.setMargin(sec1_field, new Insets(10));
+        HBox.setMargin(l_sec2, new Insets(10));
+        HBox.setMargin(sec2_field, new Insets(10));
+        HBox.setMargin(l_sec3, new Insets(10));
+        HBox.setMargin(sec3_field, new Insets(10));
+        HBox.setMargin(l_sec4, new Insets(10));
+        HBox.setMargin(sec4_field, new Insets(10));
+        HBox.setMargin(l_nombre, new Insets(10));
+        HBox.setMargin(nombre_field, new Insets(10));
+        HBox.setMargin(l_descripcion, new Insets(10));
+        HBox.setMargin(descripcion_field, new Insets(10));
+        HBox.setMargin(l_lugar ,new Insets(10));
+        HBox.setMargin(lugar_field, new Insets(10));
+        HBox.setMargin(l_fecha, new Insets(10));
+        HBox.setMargin(fechaInicio, new Insets(10));
+        HBox.setMargin(l_fechaFin, new Insets(10));
+        HBox.setMargin(fechaFin, new Insets(10));
+        Button crear=new Button("Guardar Cambios");
+        bp.setBottom(crear);
+        
+        bp.setCenter(sp);
+        BorderPane.setMargin(titulo, new Insets(15));
+        BorderPane.setMargin(sp, new Insets(15));
+        BorderPane.setMargin(crear, new Insets(15));
+        BorderPane.setAlignment(crear, Pos.CENTER);
+        BorderPane.setAlignment(titulo, Pos.CENTER);
+        Scene new_scene=new Scene(bp,500,500);
+        s.initModality(Modality.APPLICATION_MODAL);
+        
+        crear.setOnAction(eh->{
+            String nombre,lugar,descripcion,horario;
+            LocalDate fInicio,fFin;
+            int sec1,sec2,sec3,sec4;
+            nombre=(nombre_field.getText().isBlank())? f.getNombre():nombre_field.getText();
+            lugar=(lugar_field.getText().isBlank())? f.getLugar():lugar_field.getText();
+            descripcion=(descripcion_field.getText().isBlank())? f.getDescripcion():descripcion_field.getText();
+            horario=(horario_field.getText().isBlank())? f.getHorario():horario_field.getText();;
+            fInicio=(fechaInicio.getValue()==null)? f.getfInicio():fechaInicio.getValue();
+            fFin=(fechaFin.getValue()==null)? f.getfFin():fechaFin.getValue();
+            
+            if (fInicio.isBefore(fFin)){
+                f.setNombre(nombre);
+                f.setLugar(lugar);
+                f.setDescripcion(descripcion);
+                f.setHorario(horario);
+                f.setfInicio(fInicio);
+                f.setfFin(fFin);
+                
+                
+                for (Seccion sec:f.getSecciones()){
+                    System.out.println(sec.getNum_stands()+"numero de stands em la seccion ");
+                    for (Stand st: sec.getStands()){
+                        System.out.println(st.getCodigo()+"codigo de los stands");
+                    }
+                }
+                try {
+                    App.setRoot("administracionFeria");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                s.close();
+                
+            }else{
+                Alert a=new Alert(Alert.AlertType.ERROR);
+                a.setContentText("La fecha de fin debe ser mayor a la fecha de inicio");
+              
+                a.showAndWait();
+            }
+
+        });
+        s.setScene(new_scene);
+        s.showAndWait();
+        
+        
+    }
     public void cargarFerias(){
         listaFeria = new TableView();
         TableColumn<Feria,Integer> colCodigo = new TableColumn<>("Codigo");
         colCodigo.setMaxWidth(50);
         TableColumn<Feria, String> colNombre = new TableColumn<>("Nombre");
-        TableColumn<Feria, LocalDate> colFechaInicio = new TableColumn<>("Fecha");
+        TableColumn<Feria, String> colFechaInicio = new TableColumn<>("Fecha");
         TableColumn<Feria, String> colLugar = new TableColumn<>("Lugar");
         TableColumn<Feria, Integer> colCantAusp = new TableColumn<>("Num Auspiciantes");
         TableColumn<Feria, Integer> colCantEmpr = new TableColumn<>("Num Emprendedores");
         colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colFechaInicio.setCellValueFactory(cellData -> cellData.getValue().getfIn());
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fIn"));
+        
         colLugar.setCellValueFactory(new PropertyValueFactory<>("lugar"));
         colCantAusp.setCellValueFactory(new PropertyValueFactory<>("cantAusp"));
         colCantEmpr.setCellValueFactory(new PropertyValueFactory<>("cantEmprendedores"));
