@@ -35,17 +35,23 @@ public class AdministracionAuspiciantes {
     public static void registrar_auspiciante(String id, String nombre, String nombre_responsable, String telefono, String email, String direccion, String sitio_web, TipoServicio servicio,  ArrayList<Socials> redes_sociales){
         if((direccion == null || direccion == "") && (sitio_web == null || sitio_web == "")){
             Auspiciante new_Auspiciante = new Auspiciante(id, nombre, telefono, email, nombre_responsable, redes_sociales, servicio);
-            //new_Auspiciante.setIncluye_stand(incluye);
+            new_Auspiciante.setIncluye_stand(true);
             App.auspiciantes.add(new_Auspiciante);
         } else if(direccion == null || direccion == "" ){
             Auspiciante new_Auspiciante = new Auspiciante(id, nombre, telefono, email, direccion, nombre_responsable, redes_sociales, servicio);
-            //new_Auspiciante.setIncluye_stand(incluye);
+            new_Auspiciante.setIncluye_stand(true);
             App.auspiciantes.add(new_Auspiciante);
         } else if(sitio_web == null || sitio_web == ""){
             Auspiciante new_Auspiciante = new Auspiciante(redes_sociales, id, nombre, telefono, email, sitio_web, nombre_responsable, servicio);
-            //new_Auspiciante.setIncluye_stand(incluye);
+            new_Auspiciante.setIncluye_stand(true);
+            App.auspiciantes.add(new_Auspiciante);
+        }else {
+            //String identificacion, String nombre,String telefono, String email, String direccion, String sitio_web, String nombre_responsable, ArrayList<Socials> redes, TipoServicio sector_cubierto
+            Auspiciante new_Auspiciante = new Auspiciante(id, nombre, telefono, email, direccion, sitio_web, nombre_responsable,redes_sociales,servicio);
+            new_Auspiciante.setIncluye_stand(true);
             App.auspiciantes.add(new_Auspiciante);
         }
+       
         
         
     

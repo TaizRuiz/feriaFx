@@ -118,14 +118,42 @@ public class AdministracionFeriaController implements Initializable {
 
     @FXML
     private void verEmprendedores(MouseEvent event) {
+        
+        if (this.feria_seleccionada!=null){
+            System.out.println("Entro");
+            mostrarEmprededor();
+        }else{
+            Alert a=new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Selecciona una feria");
+            a.showAndWait();
+            event.consume();
+        }
     }
 
     @FXML
     private void verAuspiciantes(MouseEvent event) {
+        if (this.feria_seleccionada!=null){
+            System.out.println("Entro");
+            mostrarAuspiciante();
+        }else{
+            Alert a=new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Selecciona una feria");
+            a.showAndWait();
+            event.consume();
+        }
     }
 
     @FXML
     private void verStans(MouseEvent event) {
+         if (this.feria_seleccionada!=null){
+            System.out.println("Entro");
+            mostrarStans();
+        }else{
+            Alert a=new Alert(Alert.AlertType.ERROR);
+            a.setContentText("Selecciona una feria");
+            a.showAndWait();
+            event.consume();
+        }
     }
 
     
@@ -469,8 +497,12 @@ public class AdministracionFeriaController implements Initializable {
             for (Auspiciante a: f.getlAuspiciantes()){
                 String n=a.getNombre();
                 String rep=a.getNombre_de_responsable();
+                String telefono=a.getTelefono();
+                String email=a.getEmail();
+                String direccion = a.getDireccion();
+                String sitio = a.getSitio_web();
                 String sect=a.getSector_cubierto().toString();
-                String info="Empresa: "+n+"\n"+"Nombre: "+rep+"\n"+"Sector: "+sect;
+                String info="Empresa: "+n+"\n"+"Nombre: "+rep+"\n"+"Telefono: "+telefono+"\n"+"Email: "+email+"\n"+"Direccion: "+direccion+"\n"+"Sitio Web: "+sitio+"\n"+"Sector: "+sect;
                 s+=info+"\n";
                 
             }
@@ -487,5 +519,105 @@ public class AdministracionFeriaController implements Initializable {
         }
         System.out.println("feria retornada por buscar feria:"+f);
         return f;
+    }
+    
+    public void mostrarEmprededor(){
+    Feria feriaOg=(feria_seleccionada!=null)? buscarFeria():null;
+        if (feriaOg!=null){
+            Stage s=new Stage();
+            BorderPane bp=new BorderPane();
+            VBox contInf=new VBox();
+            ScrollPane sp=new ScrollPane();
+            ArrayList<Label> info=labelsInfoFeria(feriaOg);
+            Label nombrePanel=new Label("Detalles de emprendedores");
+           
+            /*emprendedores*/
+            HBox row_Empr=new HBox();
+            Label Empr=new Label("Emprendedores:" );
+            Empr.setStyle("-fx-background-color: gray;");
+            Label Empr_content=info.get(4);
+            HBox.setMargin(Empr,new Insets(15));
+            HBox.setMargin(Empr_content,new Insets(15));
+            row_Empr.getChildren().addAll(Empr,Empr_content);
+            contInf.getChildren().addAll( row_Empr);
+            sp.setContent(contInf);
+            BorderPane.setAlignment(nombrePanel, Pos.CENTER);
+            BorderPane.setAlignment(sp, Pos.CENTER);
+            BorderPane.setMargin(nombrePanel, new Insets(15));
+            BorderPane.setMargin(sp, new Insets(20));
+            bp.setTop(nombrePanel);
+            bp.setCenter(sp);
+            Scene new_scene=new Scene(bp,500,400);
+            s.initModality(Modality.APPLICATION_MODAL);
+            s.setScene(new_scene);
+            s.showAndWait();
+        }
+    }
+    public void mostrarAuspiciante(){
+    Feria feriaOg=(feria_seleccionada!=null)? buscarFeria():null;
+        if (feriaOg!=null){
+            Stage s=new Stage();
+            BorderPane bp=new BorderPane();
+            VBox contInf=new VBox();
+            ScrollPane sp=new ScrollPane();
+            ArrayList<Label> info=labelsInfoFeria(feriaOg);
+            Label nombrePanel=new Label("Detalles de emprendedores");
+           
+            /*Auspiciantes*/
+             HBox row_fAusp=new HBox();
+            Label Ausp=new Label("Auspiciantes:" );
+            Ausp.setStyle("-fx-background-color: gray;");
+            Label Ausp_content=info.get(3);
+            HBox.setMargin(Ausp,new Insets(15));
+            HBox.setMargin(Ausp_content,new Insets(15));
+            row_fAusp.getChildren().addAll(Ausp,Ausp_content);
+            contInf.getChildren().addAll( row_fAusp);
+            sp.setContent(contInf);
+            BorderPane.setAlignment(nombrePanel, Pos.CENTER);
+            BorderPane.setAlignment(sp, Pos.CENTER);
+            BorderPane.setMargin(nombrePanel, new Insets(15));
+            BorderPane.setMargin(sp, new Insets(20));
+            bp.setTop(nombrePanel);
+            bp.setCenter(sp);
+            Scene new_scene=new Scene(bp,500,400);
+            s.initModality(Modality.APPLICATION_MODAL);
+            s.setScene(new_scene);
+            s.showAndWait();
+        }
+    }
+    
+    public void mostrarStans(){
+    Feria feriaOg=(feria_seleccionada!=null)? buscarFeria():null;
+        if (feriaOg!=null){
+            Stage s=new Stage();
+            BorderPane bp=new BorderPane();
+            VBox contInf=new VBox();
+            ScrollPane sp=new ScrollPane();
+            ArrayList<Label> info=labelsInfoFeria(feriaOg);
+            Label nombrePanel=new Label("Detalles de emprendedores");
+           
+            /*Stans*/
+            HBox row_Stands=new HBox();
+            Label stands=new Label("Stands:" );
+            stands.setStyle("-fx-background-color: gray;");
+            Label stands_content=info.get(8);
+            HBox.setMargin(stands,new Insets(15));
+            HBox.setMargin(stands_content,new Insets(15));
+            row_Stands.getChildren().addAll(stands,stands_content);
+            
+            contInf.getChildren().addAll( row_Stands);
+            
+            sp.setContent(contInf);
+            BorderPane.setAlignment(nombrePanel, Pos.CENTER);
+            BorderPane.setAlignment(sp, Pos.CENTER);
+            BorderPane.setMargin(nombrePanel, new Insets(15));
+            BorderPane.setMargin(sp, new Insets(20));
+            bp.setTop(nombrePanel);
+            bp.setCenter(sp);
+            Scene new_scene=new Scene(bp,500,400);
+            s.initModality(Modality.APPLICATION_MODAL);
+            s.setScene(new_scene);
+            s.showAndWait();
+        }
     }
 }
