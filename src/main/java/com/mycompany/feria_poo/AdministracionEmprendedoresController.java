@@ -5,6 +5,9 @@
 package com.mycompany.feria_poo;
 
 import clases.Emprendedor;
+import clases.Socials;
+import clases.*;
+import clasesEstaticas.AdministracionEmprendedores;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,13 +20,18 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -47,6 +55,9 @@ public class AdministracionEmprendedoresController implements Initializable {
     private Button byneditarempre;
     private TableView<Emprendedor> listaEmprendedor;
     private Emprendedor emprendedorSeleccionado = null;
+    
+    private String persona_responsable="";
+    private String red_selected="";
 
     /**
      * Initializes the controller class.
@@ -137,6 +148,137 @@ public class AdministracionEmprendedoresController implements Initializable {
         }
         
     }
+    
+    //Crear emprendedor
+    public void interfaz_crear_emprendedor(){
+        //String id, String nombre, String telefono, String email, String direccion, String sitioWeb, 
+        //String nomResponsable, String descripcion, ArrayList<Socials> redes 
+        ArrayList<Socials> socials=new ArrayList<>();
+        // id
+        Label l_id = new Label("Numero de cedula: ");
+        TextField id_field = new TextField();
+        HBox cont_id = new HBox(l_id, id_field);
+        // nombre
+        Label l_name = new Label("Nombre del emprendimiento: ");
+        TextField name_field = new TextField();
+        HBox cont_name = new HBox(l_name, name_field);
+        //telefono
+        Label l_telefono = new Label("Telefono: ");
+        TextField telefono_field = new TextField();
+        HBox cont_telefono = new HBox(l_telefono, telefono_field);
+        //Email
+        Label l_email = new Label("Email: ");
+        TextField email_field = new TextField();
+        HBox cont_email = new HBox(l_email, email_field);
+        //Direccion 
+        Label l_direccion = new Label("Direccion: ");
+        TextField direccion_field = new TextField();
+        HBox cont_direccion = new HBox(l_direccion, direccion_field);
+        //sitio web
+        Label l_sitio = new Label("Sitio web: ");
+        TextField sitio_field = new TextField();
+        HBox cont_sitio = new HBox(l_sitio, sitio_field);
+        //nombre responsable
+        Label l_name2 = new Label("Nombre de persona responsable: ");
+        TextField name2_field = new TextField();
+        HBox cont_name2 = new HBox(l_name2, name2_field);
+        //descripcion 
+        Label l_descripcion=new Label("Descripcion del emprendimiento:");
+        TextArea descripcion_field=new TextArea();
+        descripcion_field.setMaxSize(160,80);
+        HBox cont_descripcion=new HBox(l_descripcion,descripcion_field);
+        //redes social
+        HBox sociales=new HBox();
+        sociales.setPadding(new Insets(5));
+        sociales.setSpacing(5);
+        ComboBox<String> redes=new ComboBox<>(FXCollections.observableArrayList("Facebook","Instagram","Twitter","Tiktok"));
+        TextField username=new TextField();
+        username.setPromptText("Ingresa tu username");
+        Button registrarRed=new Button("Guardar red social");
+        sociales.getChildren().addAll(redes,username,registrarRed);
+        /*setea valor de red social*/
+            redes.setOnAction(a->{
+                red_selected=redes.getValue();
+            });
+            
+           /*anade la red social a un array*/
+            registrarRed.setOnAction(eh->{
+                if (red_selected!="" && (!(username.getText().isBlank()|| username.getText().isEmpty()))){
+                    Socials social=new Socials(red_selected, username.getText());
+                    socials.add(social);
+                }
+                red_selected="";
+                redes.getSelectionModel().clearSelection();
+                username.clear();
+            
+            });
+        VBox contLabels=new VBox();
+        BorderPane bp=new BorderPane();
+        ScrollPane sp=new ScrollPane();
+        Label titulo = new Label ("Regsitrar Emprendedor");
+        bp.setTop(titulo);
+        contLabels.getChildren().addAll(cont_id, cont_name, cont_telefono,cont_email,cont_direccion,cont_sitio, cont_name2, cont_descripcion);
+        sp.setContent(contLabels);
+        HBox.setMargin(l_id, new Insets(10));
+        HBox.setMargin(l_name, new Insets(10));
+        HBox.setMargin(l_name2, new Insets(10));
+        HBox.setMargin(l_telefono, new Insets(10));
+        HBox.setMargin(l_email, new Insets(10));
+        HBox.setMargin(l_direccion, new Insets(10));
+        HBox.setMargin(l_sitio, new Insets(10));
+        HBox.setMargin(l_descripcion, new Insets(10));
+        Button crear=new Button("Crear emprendedor");
+        bp.setBottom(crear);
+        Stage s=new Stage();  
+        bp.setCenter(sp);
+        BorderPane.setMargin(titulo, new Insets(15));
+        BorderPane.setMargin(sp, new Insets(15));
+        BorderPane.setMargin(crear, new Insets(15));
+        BorderPane.setAlignment(crear, Pos.CENTER);
+        BorderPane.setAlignment(titulo, Pos.CENTER);
+        Scene new_scene=new Scene(bp,500,500);
+        s.initModality(Modality.APPLICATION_MODAL);
+        
+        crear.setOnAction(eh->{
+            String id, nombre, telefono, email, direccion, sitioWeb, nomResponsable, descripcion;
+            
+            id = (id_field.getText().isBlank()) ? null: id_field.getText();
+            nomResponsable=(name_field.getText().isBlank())? null:name_field.getText();
+            nombre=(name2_field.getText().isBlank())? null:name2_field.getText();
+            telefono=(telefono_field.getText().isBlank())? null:telefono_field.getText();
+            email=(email_field.getText().isBlank())? null:email_field.getText();
+            direccion=(direccion_field.getText().isBlank())? null:direccion_field.getText();
+            descripcion=(descripcion_field.getText().isBlank())? null:descripcion_field.getText();
+            sitioWeb=(sitio_field.getText().isBlank())? null:sitio_field.getText();
+            
+            if (nombre != null && id != null && descripcion != null && nomResponsable != null && telefono != null && email != null && direccion != null && sitioWeb != null) {
+                AdministracionEmprendedores.registrarEmprendedor(id, nombre, telefono, email, direccion, sitioWeb, nomResponsable, descripcion,redes);
+                 Alert a=new Alert(Alert.AlertType.CONFIRMATION);
+                a.setContentText("Se registro un nuevo emprendedor");
+                a.showAndWait();
+                s.close();
+                try {
+                    App.setRoot("administracionEmprendedor");
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            } else {
+                // Al menos uno de los valores es null, maneja la lógica correspondiente aquí
+                 Alert a=new Alert(Alert.AlertType.ERROR);
+                a.setContentText("Debe llenar todos los campos");
+                a.showAndWait();
+                eh.consume();
+                
+            }
+
+        });
+        s.setScene(new_scene);
+        s.showAndWait();
+        
+            
+        
+    }
+    
     /*metodo del boton mostrar detalles de emprendedor*/
     public ArrayList<Label> labelsInfoEmprendedor(Emprendedor e){
         ArrayList<Label>labels = new ArrayList<>();
