@@ -41,6 +41,9 @@ public class App extends Application {
         emprendedores=deser_emprendedor();
         auspiciantes=deser_auspi();
         
+        /*ferias = new ArrayList<>();
+        emprendedores = new ArrayList<>();
+        auspiciantes = new ArrayList<>();*/
         BackgroundFill backgroundFill = new BackgroundFill(Color.SKYBLUE, null, null);
         Background background = new Background(backgroundFill);
 
@@ -53,7 +56,7 @@ public class App extends Application {
         stage.setOnCloseRequest(eh->{
             guardar_datos();
         });
-       
+       //cargarFeria();
     }
 
     static void setRoot(String fxml) throws IOException {
